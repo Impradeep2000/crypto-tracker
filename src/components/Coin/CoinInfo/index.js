@@ -3,7 +3,7 @@ import "./styles.css";
 
 function CoinInfo({ heading, desc }) {
 
-    const shortDesc = desc.slice(0,350) + "<p style='color:var(--grey)'> Read More...</p>";
+    const shortDesc = desc.slice(0,350) + "..." + "<p style='color:var(--grey)'> Read More...</p>";
     const longDesc = desc + "<p style='color:var(--grey)'> Read Less...</p>";
 
     const [flag,setFlag] = useState(false)
