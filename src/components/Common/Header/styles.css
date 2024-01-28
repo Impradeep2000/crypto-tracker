@@ -46,7 +46,9 @@
         display: none;
     }
     .mobile-drawer{
-        display: block;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     .drawer-div{
         width: 40vw;

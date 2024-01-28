@@ -1,16 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import "./styles.css";
 import TrendingUpRoundedIcon from "@mui/icons-material/TrendingUpRounded";
 import TrendingDownRoundedIcon from "@mui/icons-material/TrendingDownRounded";
 import { Link } from "react-router-dom";
+import { IconButton } from "@mui/material";
+import StarRoundedIcon from "@mui/icons-material/StarRounded";
+import StarBorderRoundedIcon from "@mui/icons-material/StarBorderRounded";
+import { addToWatchlist } from "../../../functions/addToWatchlist";
+import { hasBeenAdded } from "../../../functions/hasBeenAdded";
+import { removeFromWatchlist } from "../../../functions/removeFromWatchlist";
 
-function Grid({ coin }) {
+function Grid({ coin,isWatchlistPage }) {
+  const [added, setAdded] = useState(hasBeenAdded(coin.id));
+
   return (
     <Link to={`/coin/${coin.id}`}>
       <div
         className={`grid-container ${
           coin.price_change_percentage_24h < 0 && "grid-container-red"
         }`}
+        style={{ display: isWatchlistPage && !added && "none" }}
       >
         <div className="info-flex">
           <img src={coin.image} className="coin-logo" />
@@ -18,11 +27,42 @@ function Grid({ coin }) {
             <p className="coin-symbol">{coin.symbol}</p>
             <p className="coin-name">{coin.name}</p>
           </div>
+
+          <IconButton
+            onClick={(e) => {
+              e.preventDefault();
+              if (added) {
+                removeFromWatchlist(coin.id);
+                setAdded(false);
+              } else {
+                addToWatchlist(coin.id);
+                setAdded(true);
+              }
+            }}
+          >
+            {added ? (
+              <StarRoundedIcon
+                className={`watchlist-icon ${
+                  coin.price_change_percentage_24h < 0 && "watchlist-icon-red"
+                } `}
+                sx={{ fontSize: "2rem !important" }}
+              />
+            ) : (
+              <StarBorderRoundedIcon
+                className={`watchlist-icon ${
+                  coin.price_change_percentage_24h < 0 && "watchlist-icon-red"
+                } `}
+                sx={{ fontSize: "2rem !important" }}
+              />
+            )}
+          </IconButton>
+
         </div>
+
         {coin.price_change_percentage_24h > 0 ? (
           <div className="chip-flex">
             <div className="price-chip">
-              {coin.price_change_percentage_24h.toFixed(2)}%
+              {coin.price_change_percentage_24h.toFixed(2)} %
             </div>
             <div className="icon-chip">
               <TrendingUpRoundedIcon />
@@ -31,7 +71,7 @@ function Grid({ coin }) {
         ) : (
           <div className="chip-flex">
             <div className="price-chip chip-red">
-              {coin.price_change_percentage_24h.toFixed(2)}%
+              {coin.price_change_percentage_24h.toFixed(2)} %
             </div>
             <div className="icon-chip chip-red">
               <TrendingDownRoundedIcon />

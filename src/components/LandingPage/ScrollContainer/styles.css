@@ -1,0 +1,9 @@
+.content{
+    margin-right: 1.5rem;
+}
+
+@media only screen and (max-width:800px){
+    .mark h3{
+    margin: 0 0 .6rem;
+}
+}

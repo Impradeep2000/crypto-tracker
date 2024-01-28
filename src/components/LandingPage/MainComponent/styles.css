@@ -3,6 +3,7 @@
     justify-content: space-between;
     align-items: flex-start;
     padding: 0.5rem 3rem;
+    min-height: 90vh;
 }
 
 .track-crypto-heading,.real-time-heading{
